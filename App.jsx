@@ -5,6 +5,7 @@ import { StatusBar } from 'react-native';
 import HomeScreen from './src/screens/HomeScreen';
 import ScannerScreen from './src/screens/ScannerScreen';
 import ResultScreen from './src/screens/ResultScreen';
+import './global.css'
 
 const Stack = createStackNavigator();
 

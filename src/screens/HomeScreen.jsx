@@ -2,7 +2,6 @@ import React from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   TouchableOpacity,
   ScrollView,
   Alert,
@@ -23,163 +22,90 @@ const HomeScreen = ({ navigation }) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
+    <ScrollView className="flex-1 bg-gray-50">
+      <View className="items-center bg-white px-8 py-12 mb-5">
         <Icon name="verified-user" size={80} color="#4CAF50" />
-        <Text style={styles.title}>Product Validator</Text>
-        <Text style={styles.subtitle}>
+        <Text className="text-3xl  text-gray-800 mt-3 mb-2 font-manrope-bold">
+          Product Validator
+        </Text>
+        <Text className="text-base text-gray-600 text-center leading-6 font-manrope-regular">
           Verify product authenticity and protect yourself from counterfeits
         </Text>
       </View>
 
-      <View style={styles.features}>
-        <Text style={styles.sectionTitle}>Key Features</Text>
+      <View className="bg-white mx-5 my-4 p-5 rounded-xl shadow-lg shadow-black/10">
+        <Text className="text-xl text-gray-800 mb-4 font-manrope-semibold">
+          Key Features
+        </Text>
         
-        <View style={styles.featureItem}>
+        <View className="flex-row items-center mb-3 py-2">
           <Icon name="camera-alt" size={24} color="#2196F3" />
-          <Text style={styles.featureText}>Quick QR Code Scanning</Text>
+          <Text className="text-base text-gray-700 ml-3 font-manrope-regular">
+            Quick QR Code Scanning
+          </Text>
         </View>
         
-        <View style={styles.featureItem}>
+        <View className="flex-row items-center mb-3 py-2">
           <Icon name="security" size={24} color="#4CAF50" />
-          <Text style={styles.featureText}>Instant Authenticity Check</Text>
+          <Text className="text-base text-gray-700 ml-3 font-manrope-regular">
+            Instant Authenticity Check
+          </Text>
         </View>
         
-        <View style={styles.featureItem}>
+        <View className="flex-row items-center mb-3 py-2">
           <Icon name="warning" size={24} color="#FF9800" />
-          <Text style={styles.featureText}>Counterfeit Detection</Text>
+          <Text className="text-base text-gray-700 ml-3 font-manrope-regular">
+            Counterfeit Detection
+          </Text>
         </View>
         
-        <View style={styles.featureItem}>
+        <View className="flex-row items-center mb-1 py-2">
           <Icon name="info" size={24} color="#2196F3" />
-          <Text style={styles.featureText}>Product Details & Origin</Text>
+          <Text className="text-base text-gray-700 ml-3 font-manrope-regular">
+            Product Details & Origin
+          </Text>
         </View>
       </View>
 
-      <TouchableOpacity style={styles.scanButton} onPress={handleScanPress}>
+      <TouchableOpacity 
+        className="flex-row bg-green-500 mx-5 my-3 p-5 rounded-xl items-center justify-center shadow-lg shadow-black/30"
+        onPress={handleScanPress}
+      >
         <Icon name="qr-code-scanner" size={28} color="#FFF" />
-        <Text style={styles.scanButtonText}>Scan QR Code</Text>
+        <Text className="text-white text-lg  ml-3 font-manrope-semibold">
+          Scan QR Code
+        </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.helpButton} onPress={showInstructions}>
+      <TouchableOpacity 
+        className="flex-row items-center justify-center p-4 mx-5"
+        onPress={showInstructions}
+      >
         <Icon name="help-outline" size={20} color="#666" />
-        <Text style={styles.helpButtonText}>How to Use</Text>
+        <Text className="text-gray-600 text-base ml-2 font-manrope-regular">
+          How to Use
+        </Text>
       </TouchableOpacity>
 
-      <View style={styles.demoInfo}>
-        <Text style={styles.demoTitle}>Demo QR Codes:</Text>
-        <Text style={styles.demoText}>• PROD001 - Authentic Product</Text>
-        <Text style={styles.demoText}>• PROD002 - Previously Scanned</Text>
-        <Text style={styles.demoText}>• EXPIRED001 - Expired Product</Text>
-        <Text style={styles.demoText}>• Any other - Invalid Code</Text>
+      <View className="bg-white mx-5 my-4 p-5 rounded-xl border-l-4 border-l-blue-500">
+        <Text className="text-base  text-gray-800 mb-3 font-manrope-semibold">
+          Demo QR Codes:
+        </Text>
+        <Text className="text-sm text-gray-600 mb-1 font-manrope-regular">
+          • PROD001 - Authentic Product
+        </Text>
+        <Text className="text-sm text-gray-600 mb-1 font-manrope-regular">
+          • PROD002 - Previously Scanned
+        </Text>
+        <Text className="text-sm text-gray-600 mb-1 font-manrope-regular">
+          • EXPIRED001 - Expired Product
+        </Text>
+        <Text className="text-sm text-gray-600 mb-1 font-manrope-regular">
+          • Any other - Invalid Code
+        </Text>
       </View>
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5F5F5',
-  },
-  header: {
-    alignItems: 'center',
-    padding: 30,
-    backgroundColor: '#FFF',
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#333',
-    marginTop: 10,
-    marginBottom: 5,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#666',
-    textAlign: 'center',
-    lineHeight: 22,
-  },
-  features: {
-    backgroundColor: '#FFF',
-    margin: 20,
-    padding: 20,
-    borderRadius: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 15,
-  },
-  featureItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
-    paddingVertical: 8,
-  },
-  featureText: {
-    fontSize: 16,
-    color: '#555',
-    marginLeft: 12,
-  },
-  scanButton: {
-    flexDirection: 'row',
-    backgroundColor: '#4CAF50',
-    margin: 20,
-    padding: 18,
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  scanButtonText: {
-    color: '#FFF',
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginLeft: 10,
-  },
-  helpButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 15,
-    marginHorizontal: 20,
-  },
-  helpButtonText: {
-    color: '#666',
-    fontSize: 16,
-    marginLeft: 8,
-  },
-  demoInfo: {
-    backgroundColor: '#FFF',
-    margin: 20,
-    padding: 20,
-    borderRadius: 12,
-    borderLeftWidth: 4,
-    borderLeftColor: '#2196F3',
-  },
-  demoTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 10,
-  },
-  demoText: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 5,
-  },
-});
 
 export default HomeScreen;
