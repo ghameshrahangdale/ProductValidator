@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { productAPI } from '../services/api';
+import { productAPI } from '../services/productAPI';
 
 const ResultScreen = ({ route, navigation }) => {
   const { qrCodeData } = route.params;
@@ -27,7 +27,7 @@ const ResultScreen = ({ route, navigation }) => {
       setProduct(productData);
       
       // Record the scan
-      await productAPI.recordScan(qrCodeData);
+      // await productAPI.recordScan(qrCodeData);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -148,18 +148,22 @@ const ResultScreen = ({ route, navigation }) => {
           
           <View className="flex-row justify-between mb-4">
             <View className="flex-1">
+              <Text className="text-sm text-gray-500 mb-1 font-manrope-medium">SKU</Text>
+              <Text className="text-base text-gray-800 font-manrope-semibold">{product.sku}</Text>
+            </View>
+            <View className="flex-1">
               <Text className="text-sm text-gray-500 mb-1 font-manrope-medium">Batch Number</Text>
               <Text className="text-base text-gray-800 font-manrope-semibold">{product.batchNumber}</Text>
             </View>
+          </View>
+
+          <View className="flex-row justify-between mb-4">
             <View className="flex-1">
               <Text className="text-sm text-gray-500 mb-1 font-manrope-medium">Manufacture Date</Text>
               <Text className="text-base text-gray-800 font-manrope-semibold">
                 {new Date(product.manufactureDate).toLocaleDateString()}
               </Text>
             </View>
-          </View>
-
-          <View className="flex-row justify-between">
             <View className="flex-1">
               <Text className="text-sm text-gray-500 mb-1 font-manrope-medium">Expiry Date</Text>
               <Text className={`text-base font-manrope-semibold ${
@@ -169,9 +173,16 @@ const ResultScreen = ({ route, navigation }) => {
                 {product.isExpired && ' (Expired)'}
               </Text>
             </View>
+          </View>
+
+          <View className="flex-row justify-between">
             <View className="flex-1">
-              <Text className="text-sm text-gray-500 mb-1 font-manrope-medium">Origin</Text>
-              <Text className="text-base text-gray-800 font-manrope-semibold">{product.origin}</Text>
+              <Text className="text-sm text-gray-500 mb-1 font-manrope-medium">Category</Text>
+              <Text className="text-base text-gray-800 font-manrope-semibold">{product.category}</Text>
+            </View>
+            <View className="flex-1">
+              <Text className="text-sm text-gray-500 mb-1 font-manrope-medium">Stock</Text>
+              <Text className="text-base text-gray-800 font-manrope-semibold">{product.stock} units</Text>
             </View>
           </View>
         </View>
@@ -183,16 +194,23 @@ const ResultScreen = ({ route, navigation }) => {
           </Text>
           
           <View className="mb-4">
-            <Text className="text-sm text-gray-500 mb-1 font-manrope-medium">Warranty</Text>
+            <Text className="text-sm text-gray-500 mb-1 font-manrope-medium">Description</Text>
             <Text className="text-base text-gray-800 leading-6 font-manrope-regular">
-              {product.warranty}
+              {product.description || 'No description available'}
+            </Text>
+          </View>
+          
+          <View className="mb-4">
+            <Text className="text-sm text-gray-500 mb-1 font-manrope-medium">Price</Text>
+            <Text className="text-base text-gray-800 font-manrope-semibold">
+              ${product.price}
             </Text>
           </View>
           
           <View>
-            <Text className="text-sm text-gray-500 mb-1 font-manrope-medium">Usage Instructions</Text>
+            <Text className="text-sm text-gray-500 mb-1 font-manrope-medium">Warranty</Text>
             <Text className="text-base text-gray-800 leading-6 font-manrope-regular">
-              {product.instructions}
+              {product.warranty}
             </Text>
           </View>
         </View>
@@ -210,7 +228,7 @@ const ResultScreen = ({ route, navigation }) => {
               color={product.isAuthentic ? "#4CAF50" : "#F44336"} 
             />
             <Text className="text-base text-gray-800 ml-3 font-manrope-regular">
-              {product.isAuthentic ? 'Authentic Product' : 'Product Authentication Failed'}
+              {product.isAuthentic ? 'Verified Product' : 'Product Not Verified'}
             </Text>
           </View>
           
@@ -233,8 +251,8 @@ const ResultScreen = ({ route, navigation }) => {
             />
             <Text className="text-base text-gray-800 ml-3 font-manrope-regular">
               {product.isSuspicious 
-                ? `Multiple scans detected (${product.scanCount} times)`
-                : 'Normal scan activity'
+                ? `Suspicious activity detected`
+                : 'Normal verification status'
               }
             </Text>
           </View>

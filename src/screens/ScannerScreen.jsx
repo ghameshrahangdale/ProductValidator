@@ -108,7 +108,7 @@ const ScannerScreen = ({ navigation }) => {
   if (!device) {
     return (
       <View style={styles.permissionContainer}>
-        <ActivityIndicator size="large" color="#4CAF50" />
+        <ActivityIndicator size="large" color="#ac3ce1" />
         <Text style={styles.permissionText}>Loading camera...</Text>
       </View>
     );
@@ -141,7 +141,7 @@ const ScannerScreen = ({ navigation }) => {
 
       {isLoading && (
         <View style={styles.loadingOverlay}>
-          <ActivityIndicator size="large" color="#4CAF50" />
+          <ActivityIndicator size="large" color="#ac3ce1" />
           <Text style={styles.loadingText}>Verifying product...</Text>
         </View>
       )}

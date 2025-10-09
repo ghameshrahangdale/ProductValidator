@@ -24,9 +24,9 @@ const HomeScreen = ({ navigation }) => {
   return (
     <ScrollView className="flex-1 bg-gray-50">
       <View className="items-center bg-white px-8 py-12 mb-5">
-        <Icon name="verified-user" size={80} color="#4CAF50" />
-        <Text className="text-3xl  text-gray-800 mt-3 mb-2 font-manrope-bold">
-          Product Validator
+        <Icon name="verified-user" size={80} color="#ac3ce1" />
+        <Text className="text-3xl text-primary-color mt-3 mb-2 font-manrope-bold">
+          VeritfyIt
         </Text>
         <Text className="text-base text-gray-600 text-center leading-6 font-manrope-regular">
           Verify product authenticity and protect yourself from counterfeits
@@ -68,7 +68,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
 
       <TouchableOpacity 
-        className="flex-row bg-green-500 mx-5 my-3 p-5 rounded-xl items-center justify-center shadow-lg shadow-black/30"
+        className="flex-row bg-primary-color mx-5 my-3 p-5 rounded-xl items-center justify-center shadow-lg shadow-black/30"
         onPress={handleScanPress}
       >
         <Icon name="qr-code-scanner" size={28} color="#FFF" />

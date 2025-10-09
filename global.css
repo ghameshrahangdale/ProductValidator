@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* :root {
+  --primary-color: #ac3ce1;
+  --primary-light: #f7ecfc;
+  --primary-red: #ec3636;
+  --primary-orange: #f69a0e;
+  --black-body: #0e0e0e;
+  --secondary-shade: #828282;
+  --primary-bg: #f8f8f9;
+  --font-family: "Rubik", sans-serif;
+  --white: #ffffff;
+  --black: #000000;
+} */
