@@ -36,6 +36,7 @@ const ResultScreen = ({ route, navigation }) => {
       setLoading(true);
       const productData = await productAPI.verifyProduct(qrCodeData);
       setProduct(productData);
+      console.log(productData);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -208,7 +209,7 @@ const ResultScreen = ({ route, navigation }) => {
   const config = getStatusConfig(product.status);
 
   return (
-    <Animated.View style={{ opacity: fadeAnim }} className="flex-1 bg-gray-50">
+    <Animated.View style={{ opacity: fadeAnim }} className="flex-1 bg-gray-100">
       {/* Header Section with Gradient */}
       <View 
         className="px-6 pt-16 pb-12 rounded-b-3xl shadow-lg"
@@ -400,7 +401,19 @@ const ResultScreen = ({ route, navigation }) => {
           <Icon name="schedule" size={20} color="#3B82F6" />
           <Text className="text-blue-700 text-sm font-manrope-medium mt-1">
             Scanned on {new Date(product.verificationDate).toLocaleString()}
+            
           </Text>
+          {
+            product.verificationLocation && !product.locationError ? (
+              <Text className="text-blue-700 text-sm font-manrope-medium mt-1">
+                Place: {product.verificationLocation} </Text>
+            ) : product.locationError ? (
+              <Text className="text-blue-700 text-sm font-manrope-medium mt-1">
+                Location Error: {product.locationError}
+              </Text>
+            ) : null
+          }
+         
         </View>
       </ScrollView>
 

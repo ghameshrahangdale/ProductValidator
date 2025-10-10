@@ -57,25 +57,7 @@ const ScannerScreen = ({ navigation }) => {
     }
   };
 
-  const handleManualEntry = () => {
-    Alert.prompt(
-      'Manual Code Entry',
-      'Enter the product code manually:',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Verify',
-          onPress: (code) => {
-            if (code && code.trim()) {
-              setIsLoading(true);
-              processScannedData(code.trim());
-            }
-          },
-        },
-      ],
-      'plain-text'
-    );
-  };
+  
 
   if (hasPermission === null) {
     return (
@@ -146,16 +128,7 @@ const ScannerScreen = ({ navigation }) => {
         </View>
       )}
 
-      <View style={styles.footer}>
-        <TouchableOpacity
-          style={styles.manualButton}
-          onPress={handleManualEntry}
-          disabled={isLoading}
-        >
-          <Icon name="keyboard" size={20} color="#666" />
-          <Text style={styles.manualButtonText}>Enter Code Manually</Text>
-        </TouchableOpacity>
-      </View>
+      
     </View>
   );
 };

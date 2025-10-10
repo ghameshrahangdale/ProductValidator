@@ -1,33 +1,100 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   ScrollView,
-  Alert,
+  Image,
+  Modal,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const HomeScreen = ({ navigation }) => {
+  const [showInstructions, setShowInstructions] = useState(false);
+
   const handleScanPress = () => {
     navigation.navigate('Scanner');
   };
 
-  const showInstructions = () => {
-    Alert.alert(
-      'How to Use',
-      '1. Tap "Scan QR Code" button\n2. Point your camera at the product QR code\n3. Get instant verification results\n4. View product details and authenticity status',
-      [{ text: 'OK' }]
-    );
-  };
+  const InstructionsModal = () => (
+    <Modal
+      visible={showInstructions}
+      transparent={true}
+      animationType="fade"
+      onRequestClose={() => setShowInstructions(false)}
+    >
+      <View className="flex-1 bg-black/50 justify-center items-center px-5">
+        <View className="bg-white rounded-xl w-full max-w-md p-6 shadow-lg shadow-black/20">
+          <View className="flex-row justify-between items-center mb-4">
+            <Text className="text-xl text-gray-800 font-manrope-semibold">
+              How to Use
+            </Text>
+            <TouchableOpacity 
+              onPress={() => setShowInstructions(false)}
+              className="p-1"
+            >
+              <Icon name="close" size={24} color="#666" />
+            </TouchableOpacity>
+          </View>
+
+          <View className="space-y-4">
+            <View className="flex-row items-start">
+              <View className="bg-primary-color w-6 h-6 rounded-full items-center justify-center mr-3 mt-0.5">
+                <Text className="text-white text-xs font-manrope-semibold">1</Text>
+              </View>
+              <Text className="text-base text-gray-700 flex-1 font-manrope-regular">
+                Tap "Scan QR Code" button
+              </Text>
+            </View>
+
+            <View className="flex-row items-start">
+              <View className="bg-primary-color w-6 h-6 rounded-full items-center justify-center mr-3 mt-0.5">
+                <Text className="text-white text-xs font-manrope-semibold">2</Text>
+              </View>
+              <Text className="text-base text-gray-700 flex-1 font-manrope-regular">
+                Point your camera at the product QR code
+              </Text>
+            </View>
+
+            <View className="flex-row items-start">
+              <View className="bg-primary-color w-6 h-6 rounded-full items-center justify-center mr-3 mt-0.5">
+                <Text className="text-white text-xs font-manrope-semibold">3</Text>
+              </View>
+              <Text className="text-base text-gray-700 flex-1 font-manrope-regular">
+                Get instant verification results
+              </Text>
+            </View>
+
+            <View className="flex-row items-start">
+              <View className="bg-primary-color w-6 h-6 rounded-full items-center justify-center mr-3 mt-0.5">
+                <Text className="text-white text-xs font-manrope-semibold">4</Text>
+              </View>
+              <Text className="text-base text-gray-700 flex-1 font-manrope-regular">
+                View product details and authenticity status
+              </Text>
+            </View>
+          </View>
+
+          <TouchableOpacity 
+            className="bg-primary-color mt-6 p-4 rounded-xl items-center justify-center shadow-lg shadow-black/30"
+            onPress={() => setShowInstructions(false)}
+          >
+            <Text className="text-white text-lg font-manrope-semibold">
+              Got It
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Modal>
+  );
 
   return (
     <ScrollView className="flex-1 bg-gray-50">
       <View className="items-center bg-white px-8 py-12 mb-5">
-        <Icon name="verified-user" size={80} color="#ac3ce1" />
-        <Text className="text-3xl text-primary-color mt-3 mb-2 font-manrope-bold">
-          VeritfyIt
-        </Text>
+        <Image
+          source={require("../../assets/images/Verifit.png")}
+          style={{ width: 150, height: 50, resizeMode: "contain", marginTop: 12, marginBottom: 12 }}
+        />
         <Text className="text-base text-gray-600 text-center leading-6 font-manrope-regular">
           Verify product authenticity and protect yourself from counterfeits
         </Text>
@@ -72,14 +139,14 @@ const HomeScreen = ({ navigation }) => {
         onPress={handleScanPress}
       >
         <Icon name="qr-code-scanner" size={28} color="#FFF" />
-        <Text className="text-white text-lg  ml-3 font-manrope-semibold">
+        <Text className="text-white text-lg ml-3 font-manrope-semibold">
           Scan QR Code
         </Text>
       </TouchableOpacity>
 
       <TouchableOpacity 
         className="flex-row items-center justify-center p-4 mx-5"
-        onPress={showInstructions}
+        onPress={() => setShowInstructions(true)}
       >
         <Icon name="help-outline" size={20} color="#666" />
         <Text className="text-gray-600 text-base ml-2 font-manrope-regular">
@@ -87,23 +154,7 @@ const HomeScreen = ({ navigation }) => {
         </Text>
       </TouchableOpacity>
 
-      <View className="bg-white mx-5 my-4 p-5 rounded-xl border-l-4 border-l-blue-500">
-        <Text className="text-base  text-gray-800 mb-3 font-manrope-semibold">
-          Demo QR Codes:
-        </Text>
-        <Text className="text-sm text-gray-600 mb-1 font-manrope-regular">
-          • PROD001 - Authentic Product
-        </Text>
-        <Text className="text-sm text-gray-600 mb-1 font-manrope-regular">
-          • PROD002 - Previously Scanned
-        </Text>
-        <Text className="text-sm text-gray-600 mb-1 font-manrope-regular">
-          • EXPIRED001 - Expired Product
-        </Text>
-        <Text className="text-sm text-gray-600 mb-1 font-manrope-regular">
-          • Any other - Invalid Code
-        </Text>
-      </View>
+      <InstructionsModal />
     </ScrollView>
   );
 };
