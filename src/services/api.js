@@ -11,7 +11,8 @@ import axios from "axios";
 // };
 
 const api = axios.create({
-  baseURL: "http://192.168.174.77:4000/",
+  // baseURL: "http://192.168.174.77:4000/",
+  baseURL: "https://verifiit-scanner-backend-4qa5r.ondigitalocean.app/",
 });
 
 // ✅ Optional: Add token interceptor if using auth later
