@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -9,9 +9,13 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
+import { PermissionsAndroid, Platform, Alert, Linking } from 'react-native';
+import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
+import Geolocation from '@react-native-community/geolocation';
 
 const HomeScreen = ({ navigation }) => {
   const [showInstructions, setShowInstructions] = useState(false);
+  const [showLocationModal, setShowLocationModal] = useState(false);
 
   const handleScanPress = () => {
     navigation.navigate('Scanner');
@@ -21,6 +25,119 @@ const HomeScreen = ({ navigation }) => {
     setShowInstructions(false);
     handleScanPress();
   };
+
+  const checkIfLocationEnabled = () => {
+    return new Promise((resolve) => {
+      Geolocation.getCurrentPosition(
+        () => {
+          resolve(true); // GPS ON
+        },
+        (error) => {
+          if (error.code === 2) {
+            resolve(false); // GPS OFF
+          } else {
+            resolve(true); // Permission issue etc.
+          }
+        },
+        {
+          enableHighAccuracy: false,
+          timeout: 5000,
+          maximumAge: 10000,
+        }
+      );
+    });
+  };
+
+
+  useEffect(() => {
+    requestInitialPermissions();
+  }, []);
+
+  const requestInitialPermissions = async () => {
+    if (Platform.OS !== 'android') return;
+
+    try {
+      const cameraGranted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA
+      );
+
+      const locationGranted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+      );
+
+      if (
+        cameraGranted !== PermissionsAndroid.RESULTS.GRANTED ||
+        locationGranted !== PermissionsAndroid.RESULTS.GRANTED
+      ) {
+        return;
+      }
+
+      // ✅ Check GPS status
+      const isEnabled = await checkIfLocationEnabled();
+
+      if (!isEnabled) {
+        setShowLocationModal(true); // 👈 show custom modal
+      }
+
+    } catch (error) {
+      console.log('Permission error:', error);
+    }
+  };
+
+
+  const LocationModal = () => (
+  <Modal
+    visible={showLocationModal}
+    transparent
+    animationType="fade"
+  >
+    <View className="flex-1 bg-black/60 justify-center items-center px-6">
+      <View className="bg-white w-full rounded-3xl p-6">
+
+        <View className="items-center mb-4">
+          <Icon name="location-off" size={50} color="#ac3ce1" />
+          <Text className="text-xl font-manrope-bold mt-3 text-gray-800">
+            Location Disabled
+          </Text>
+        </View>
+
+        <Text className="text-gray-600 text-center mb-6 font-manrope-regular">
+          Please enable location services to verify product authenticity.
+        </Text>
+
+        <TouchableOpacity
+          className="bg-purple-600 p-4 rounded-2xl items-center mb-3"
+          onPress={async () => {
+            setShowLocationModal(false);
+            try {
+              await RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
+                interval: 10000,
+                fastInterval: 5000,
+              });
+            } catch (err) {
+              console.log('User cancelled enabling location');
+            }
+          }}
+        >
+          <Text className="text-white font-manrope-bold text-lg">
+            Enable Location
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => setShowLocationModal(false)}
+          className="items-center"
+        >
+          <Text className="text-gray-500 font-manrope-regular">
+            Not Now
+          </Text>
+        </TouchableOpacity>
+
+      </View>
+    </View>
+  </Modal>
+);
+
 
   const features = [
     {
@@ -56,12 +173,12 @@ const HomeScreen = ({ navigation }) => {
       animationType="slide"
       onRequestClose={() => setShowInstructions(false)}
     >
-      <TouchableOpacity 
+      <TouchableOpacity
         className="flex-1 bg-black/70 justify-end"
         activeOpacity={1}
         onPressOut={() => setShowInstructions(false)}
       >
-        <View 
+        <View
           className="bg-white rounded-t-3xl pt-6 pb-10 px-6"
           onStartShouldSetResponder={() => true}
         >
@@ -137,7 +254,7 @@ const HomeScreen = ({ navigation }) => {
                 <Icon name="qr-code-scanner" size={40} color="#FFF" />
               </View>
               <Text className="text-white text-2xl font-manrope-bold text-center mb-2">
-                Scan Product Code
+                Scan Product QR
               </Text>
               <Text className="text-purple-100 text-center text-base font-manrope-regular leading-6">
                 Scan QR codes or barcodes to verify product authenticity and get detailed information
@@ -210,6 +327,8 @@ const HomeScreen = ({ navigation }) => {
       </ScrollView>
 
       <InstructionsModal />
+      <LocationModal />
+
     </View>
   );
 };
