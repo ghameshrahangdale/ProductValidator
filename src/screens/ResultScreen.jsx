@@ -51,15 +51,15 @@ const ResultScreen = ({ route, navigation }) => {
           color: '#10B981',
           gradient: ['#10B981', '#059669'],
           icon: 'verified',
-          title: 'Authentic Product',
-          subtitle: 'This product is verified and authentic'
+          title: 'Product Details Found',
+          subtitle: 'Check the product information carefully to ensure it matches your purchase.'
         };
       case 'warning':
         return {
           color: '#F59E0B',
           gradient: ['#F59E0B', '#D97706'],
           icon: 'warning',
-          title: 'Verification Warning',
+          title: 'Product is Expired',
           subtitle: 'Please review the product details carefully'
         };
       default:
@@ -99,27 +99,27 @@ const ResultScreen = ({ route, navigation }) => {
 
   if (error || !product) {
     const config = getStatusConfig('error');
-    
+
     return (
       <Animated.View style={{ opacity: fadeAnim }} className="flex-1 bg-gray-50">
         {/* Header Section */}
-        <View className="bg-gradient-to-b from-red-500 to-red-600 px-6 pt-16 pb-12 rounded-b-3xl shadow-lg">
+        <View className="bg-red-500 px-6 pt-16 pb-12 rounded-b-3xl shadow-lg">
           <View className="items-center">
             <View className="bg-white/20 p-4 rounded-full mb-4">
               <Icon name="error" size={48} color="#FFF" />
             </View>
             <Text className="text-white text-2xl font-manrope-bold text-center mb-2">
-              Verification Failed
+              Product Not Found
             </Text>
             <Text className="text-white/90 text-base text-center font-manrope-regular">
-              {error || 'Product not found in our database'}
+              { 'This Product not found in our database'}
             </Text>
           </View>
         </View>
 
         <ScrollView className="flex-1 px-5 -mt-6" showsVerticalScrollIndicator={false}>
           {/* Scanned Code Card */}
-          <View className="bg-white rounded-2xl p-6 shadow-sm shadow-black/5 mb-4">
+          {/* <View className="bg-white rounded-2xl p-6 shadow-sm shadow-black/5 mb-4">
             <View className="flex-row items-center mb-3">
               <Icon name="qr-code" size={20} color="#6B7280" />
               <Text className="text-gray-500 text-sm font-manrope-medium ml-2">
@@ -129,7 +129,7 @@ const ResultScreen = ({ route, navigation }) => {
             <Text className="text-gray-800 text-lg font-manrope-semibold font-mono">
               {qrCodeData}
             </Text>
-          </View>
+          </View> */}
 
           {/* Warning Card */}
           <View className="bg-amber-50 border border-amber-200 rounded-2xl p-5 mb-4">
@@ -140,7 +140,7 @@ const ResultScreen = ({ route, navigation }) => {
                   Important Notice
                 </Text>
                 <Text className="text-amber-700 text-sm leading-5 font-manrope-regular">
-                  This product may be counterfeit or not properly registered. 
+                  This product may be counterfeit or not properly registered.
                   Please contact the manufacturer or retailer for assistance.
                 </Text>
               </View>
@@ -183,7 +183,7 @@ const ResultScreen = ({ route, navigation }) => {
 
         {/* Action Buttons */}
         <View className="bg-white px-5 pt-4 pb-8 border-t border-gray-100">
-          <TouchableOpacity 
+          <TouchableOpacity
             className="bg-green-500 flex-row items-center justify-center py-4 rounded-2xl mb-3 shadow-sm shadow-black/10"
             onPress={handleScanAgain}
           >
@@ -192,15 +192,8 @@ const ResultScreen = ({ route, navigation }) => {
               Scan Another Code
             </Text>
           </TouchableOpacity>
+
           
-          <TouchableOpacity 
-            className="py-4 items-center"
-            onPress={handleGoHome}
-          >
-            <Text className="text-gray-600 text-base font-manrope-medium">
-              Back to Home
-            </Text>
-          </TouchableOpacity>
         </View>
       </Animated.View>
     );
@@ -211,9 +204,9 @@ const ResultScreen = ({ route, navigation }) => {
   return (
     <Animated.View style={{ opacity: fadeAnim }} className="flex-1 bg-gray-100">
       {/* Header Section with Gradient */}
-      <View 
+      <View
         className="px-6 pt-16 pb-12 rounded-b-3xl shadow-lg"
-        style={{ 
+        style={{
           backgroundColor: config.color,
           background: `linear-gradient(135deg, ${config.gradient[0]}, ${config.gradient[1]})`
         }}
@@ -245,7 +238,7 @@ const ResultScreen = ({ route, navigation }) => {
             </View>
             <View className="bg-gray-50 px-3 py-2 rounded-lg">
               <Text className="text-gray-600 text-sm font-manrope-semibold">
-                ${product.price}
+                ₹{product.price}
               </Text>
             </View>
           </View>
@@ -275,9 +268,8 @@ const ResultScreen = ({ route, navigation }) => {
               </View>
               <View className="flex-1 items-end">
                 <Text className="text-xs text-gray-500 font-manrope-medium mb-1">Expires</Text>
-                <Text className={`text-sm font-manrope-semibold ${
-                  product.isExpired ? 'text-red-500' : 'text-gray-800'
-                }`}>
+                <Text className={`text-sm font-manrope-semibold ${product.isExpired ? 'text-red-500' : 'text-gray-800'
+                  }`}>
                   {new Date(product.expiryDate).toLocaleDateString()}
                 </Text>
               </View>
@@ -290,25 +282,25 @@ const ResultScreen = ({ route, navigation }) => {
           <Text className="text-xl text-gray-800 font-manrope-bold mb-5">
             Product Details
           </Text>
-          
+
           <View className="space-y-4">
             <View className="flex-row justify-between items-center py-2 border-b border-gray-100">
               <Text className="text-gray-600 font-manrope-medium">Category</Text>
-              <Text className="text-gray-800 font-manrope-semibold">{product.category}</Text>
+              <Text className="text-gray-800 font-manrope-semibold capitalize">{product.category}</Text>
             </View>
-            
+
             <View className="flex-row justify-between items-center py-2 border-b border-gray-100">
               <Text className="text-gray-600 font-manrope-medium">Stock Available</Text>
               <Text className="text-gray-800 font-manrope-semibold">{product.stock} units</Text>
             </View>
-            
+
             <View className="py-2">
               <Text className="text-gray-600 font-manrope-medium mb-2">Description</Text>
               <Text className="text-gray-800 leading-6 font-manrope-regular">
                 {product.description || 'No description available for this product.'}
               </Text>
             </View>
-            
+
             <View className="flex-row justify-between items-center py-2">
               <Text className="text-gray-600 font-manrope-medium">Warranty</Text>
               <Text className="text-gray-800 font-manrope-semibold text-right flex-1 ml-2">
@@ -323,39 +315,16 @@ const ResultScreen = ({ route, navigation }) => {
           <Text className="text-xl text-gray-800 font-manrope-bold mb-5">
             Security Status
           </Text>
-          
+
           <View className="space-y-4">
+           
             <View className="flex-row items-center">
-              <View className={`p-2 rounded-lg mr-4 ${
-                product.isAuthentic ? 'bg-green-100' : 'bg-red-100'
-              }`}>
-                <Icon 
-                  name={product.isAuthentic ? "verified" : "warning"} 
-                  size={20} 
-                  color={product.isAuthentic ? "#10B981" : "#EF4444"} 
-                />
-              </View>
-              <View className="flex-1">
-                <Text className="text-gray-800 font-manrope-semibold">
-                  {product.isAuthentic ? 'Verified Authentic' : 'Not Verified'}
-                </Text>
-                <Text className="text-gray-500 text-sm font-manrope-regular">
-                  {product.isAuthentic 
-                    ? 'This product is confirmed authentic' 
-                    : 'Unable to verify product authenticity'
-                  }
-                </Text>
-              </View>
-            </View>
-            
-            <View className="flex-row items-center">
-              <View className={`p-2 rounded-lg mr-4 ${
-                product.isExpired ? 'bg-amber-100' : 'bg-green-100'
-              }`}>
-                <Icon 
-                  name={product.isExpired ? "warning" : "check-circle"} 
-                  size={20} 
-                  color={product.isExpired ? "#F59E0B" : "#10B981"} 
+              <View className={`p-2 rounded-lg mr-4 ${product.isExpired ? 'bg-amber-100' : 'bg-green-100'
+                }`}>
+                <Icon
+                  name={product.isExpired ? "warning" : "check-circle"}
+                  size={20}
+                  color={product.isExpired ? "#F59E0B" : "#10B981"}
                 />
               </View>
               <View className="flex-1">
@@ -363,22 +332,21 @@ const ResultScreen = ({ route, navigation }) => {
                   {product.isExpired ? 'Product Expired' : 'Within Shelf Life'}
                 </Text>
                 <Text className="text-gray-500 text-sm font-manrope-regular">
-                  {product.isExpired 
-                    ? 'This product has passed its expiry date' 
+                  {product.isExpired
+                    ? 'This product has passed its expiry date'
                     : 'Product is within valid expiry period'
                   }
                 </Text>
               </View>
             </View>
-            
+
             <View className="flex-row items-center">
-              <View className={`p-2 rounded-lg mr-4 ${
-                product.isSuspicious ? 'bg-amber-100' : 'bg-green-100'
-              }`}>
-                <Icon 
-                  name={product.isSuspicious ? "security" : "check-circle"} 
-                  size={20} 
-                  color={product.isSuspicious ? "#F59E0B" : "#10B981"} 
+              <View className={`p-2 rounded-lg mr-4 ${product.isSuspicious ? 'bg-amber-100' : 'bg-green-100'
+                }`}>
+                <Icon
+                  name={product.isSuspicious ? "security" : "check-circle"}
+                  size={20}
+                  color={product.isSuspicious ? "#F59E0B" : "#10B981"}
                 />
               </View>
               <View className="flex-1">
@@ -386,7 +354,7 @@ const ResultScreen = ({ route, navigation }) => {
                   Security Check
                 </Text>
                 <Text className="text-gray-500 text-sm font-manrope-regular">
-                  {product.isSuspicious 
+                  {product.isSuspicious
                     ? 'Unusual activity detected - proceed with caution'
                     : 'All security checks passed successfully'
                   }
@@ -401,25 +369,27 @@ const ResultScreen = ({ route, navigation }) => {
           <Icon name="schedule" size={20} color="#3B82F6" />
           <Text className="text-blue-700 text-sm font-manrope-medium mt-1">
             Scanned on {new Date(product.verificationDate).toLocaleString()}
-            
+
           </Text>
           {
             product.verificationLocation && !product.locationError ? (
               <Text className="text-blue-700 text-sm font-manrope-medium mt-1">
-                Place: {product.verificationLocation} </Text>
+                {/* Access the properties like latitude and longitude */}
+                Place: {`Lat: ${product.verificationLocation.latitude.toFixed(4)}, Lng: ${product.verificationLocation.longitude.toFixed(4)}`}
+              </Text>
             ) : product.locationError ? (
               <Text className="text-blue-700 text-sm font-manrope-medium mt-1">
                 Location Error: {product.locationError}
               </Text>
             ) : null
           }
-         
+
         </View>
       </ScrollView>
 
       {/* Action Buttons */}
       <View className="bg-white px-5 pt-4 pb-8 border-t border-gray-100">
-        <TouchableOpacity 
+        <TouchableOpacity
           className="bg-green-500 flex-row items-center justify-center py-4 rounded-2xl mb-3 shadow-sm shadow-black/10"
           onPress={handleScanAgain}
         >
@@ -428,15 +398,15 @@ const ResultScreen = ({ route, navigation }) => {
             Scan Another Product
           </Text>
         </TouchableOpacity>
-        
-        <TouchableOpacity 
+
+        {/* <TouchableOpacity
           className="py-4 items-center"
           onPress={handleGoHome}
         >
           <Text className="text-gray-600 text-base font-manrope-medium">
             Back to Home
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </Animated.View>
   );

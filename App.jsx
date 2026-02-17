@@ -16,7 +16,7 @@ const SplashScreen = () => {
   return (
     <View className="flex-1 bg-primary-color justify-center items-center">
       <Image
-        source={require("./assets/images/Verifit_White.png")}
+        source={require("./assets/images/Verifyit.png")}
         style={{ width: 180, height: 60, resizeMode: "contain", marginBottom: 16 }}
       />
     </View>
@@ -58,7 +58,7 @@ const App = () => {
           name="Home" 
           component={HomeScreen}
           options={{ 
-            title: 'Verifit',
+            title: 'VerifyIt',
             headerTitleStyle: {
               fontFamily: 'Manrope-SemiBold',
             },
